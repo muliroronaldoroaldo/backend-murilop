@@ -71,25 +71,20 @@ app.get('/treinos/:id', (req, res) => {
 // ------------------------------------------------------------
 
 app.post('/treinos', (req, res) => {
-    const erro = validarTreino(req.body);
-    if (erro !== null) {
-        return res.status(400).json({ erro: erro });
-    }
+const erro = validarTreino(req.body);
+if (erro !== null){
+return res.status(400).json({ erro: erro });
+}
 
-    const resultado = db
-        .prepare('INSERT INTO treinos (nome, duracao) VALUES (?, ?)')
-        .run(req.body.nome, req.body.duracao);
-    proximoId = proximoId + 1;
-    treinos.push(treino);
-    res.status(201).json(treino);
+const resultado = db
+.prepare('INSERT INTO treinos (nome, duracao) VALUES (?, ?)')
+.run(req.body.nome, req.body.duracao);
 
-
-    const novo = db
-        .prepare('SELECT * FROM treinos WHERE id = ?')
-        .get(resultado.lastInsertRowid);
-    res.status(201).json(novo);
+const novo = db
+.prepare('SELECT * FROM treinos WHERE id = ?')
+.get(resultado.lastInsertRowid);
+res.status(201).json(novo);
 });
-
 // ------------------------------------------------------------
 // PUT /treinos/:id - substitui um treino
 // ------------------------------------------------------------
